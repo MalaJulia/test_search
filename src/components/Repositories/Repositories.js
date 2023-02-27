@@ -13,6 +13,7 @@ const Repositories = () => {
   const [query, setQuery] = useSearchParams(queryParams);
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
     setIsLoading(true);
@@ -35,11 +36,15 @@ const Repositories = () => {
   const newPage = (event, pageNew) => {
     console.log(event.target.value, "ev");
     console.log(pageNew, "pn");
+
     const queryData = Object.fromEntries([...query]);
+    setPage(()=> (pageNew))
     setQuery(() => ({
       ...queryData,
       page: pageNew,
-    }));
+    }
+    ));
+
   };
 
   return (
@@ -52,7 +57,7 @@ const Repositories = () => {
       </>
 
       {!isLoading && (
-        <Pagination count={Math.ceil(count / 30)} onChange={newPage} />
+        <Pagination count={Math.ceil(count / 30)} onChange={newPage} page={page}/>
       )}
     </Box>
   );
