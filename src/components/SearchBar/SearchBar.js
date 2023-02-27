@@ -1,36 +1,44 @@
+import { useSearchParams } from "react-router-dom";
+
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import {useSearchParams} from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+
 import queryParams from "../../constants/queryParams";
 
 const Search = () => {
-    const [query, setQuery] = useSearchParams(queryParams);
+  const [query, setQuery] = useSearchParams(queryParams);
 
-    console.log(queryParams.q)
-    const handleSubmit = (e) => e.preventDefault();
+  let interval;
 
-    const handleSearchChange = (event) => {
-        const { value } = event.target;
-        console.log(value, "value");
-        console.log(event, 'event')
-        queryParams.q =value;
-        if (!value) {
-        }
+  console.log(queryParams.q);
 
-        setQuery(() => queryParams);
-    };
+  const handleSearchChange = (event) => {
+    interval = setTimeout(() => {
+      const { value } = event.target;
+      queryParams.q = value;
+      if (!value) {
+        queryParams.q = "a";
+      }
+      setQuery(() => queryParams);
+    }, 300);
+  };
 
-    return (
-        <Box>
-            <TextField
-                id="name"
-                label="Name"
-                type="search"
-                variant="standard"
-                onChange={handleSearchChange}
-                onSubmit={handleSubmit}
-                defaultValue={query.get("name")}
-            />
-            </Box>
-        )}
-export default Search
+  return (
+    <Box>
+      <TextField
+        sx={{
+          width: 300,
+        }}
+        id="search"
+        placeholder="Search"
+        label=<SearchIcon />
+        type="search"
+        variant="outlined"
+        onChange={handleSearchChange}
+        defaultValue={query.get("name")}
+      />
+    </Box>
+  );
+};
+export default Search;

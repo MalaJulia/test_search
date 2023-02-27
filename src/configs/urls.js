@@ -1,9 +1,7 @@
-const baseURL = 'https://api.github.com'
+const baseURL = "https://api.github.com";
 
-const urls =  {
-    repositories: "/repositories",
-    search: "/search/repositories"
+const urls = {
+  search: "/search/repositories",
+};
 
-}
-
-export {baseURL,urls}
+export { baseURL, urls };

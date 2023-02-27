@@ -1,38 +1,61 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import {searchService} from "../../service";
-import Repositori from "./Repositori";
+
+import Box from "@mui/material/Box";
+import { LinearProgress, Pagination } from "@mui/material";
+
+import { searchService } from "../../service";
 import queryParams from "../../constants/queryParams";
-import SearchBar from "../SearchBar/SearchBar";
+import Repository from "./Repository";
 
-const Repositories= () => {
+const Repositories = () => {
+  const [repositories, setRepositories] = useState([]);
+  const [query, setQuery] = useSearchParams(queryParams);
+  const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const [ repositories, setRepositories] = useState([])
-    const [query, setQuery] = useSearchParams(queryParams )
+  useEffect(() => {
+    setIsLoading(true);
+    const queryData = Object.fromEntries([...query]);
+    console.log(queryData, "data");
 
-    useEffect(() => {
-        const queryData = Object.fromEntries([...query]);
-        console.log(queryData, "data");
+    searchService
+      .Search(queryData)
+      .then(({ data }) => {
+        setRepositories(data.items);
+        setCount(data.total_count);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error, "Error in request");
+      });
+  }, [query]);
 
+  const newPage = (event, pageNew) => {
+    console.log(event.target.value, "ev");
+    console.log(pageNew, "pn");
+    const queryData = Object.fromEntries([...query]);
+    setQuery(() => ({
+      ...queryData,
+      page: pageNew,
+    }));
+  };
 
-        searchService
-            .Search(queryData)
-            .then(({ data }) => {
-                setRepositories(data.items);
-                console.log(data.items, 'data')
+  return (
+    <Box marginX={10} marginTop={5} bgcolor="#f2f1ef" borderRadius={5}>
+      <>
+        {isLoading && <LinearProgress />}
+        {repositories.map((repository) => (
+          <Repository key={repository.id} repository={repository} />
+        ))}
+      </>
 
-            })
-            .catch((error) => {
-                console.log(error, "Error in request");
-            });
-    }, [query]);
-
-return (
-
-
-    repositories.map((repositori) => (<Repositori key={repositori.id} repositori={repositori}/>))
-
-)
-}
+      {!isLoading && (
+        <Pagination count={Math.ceil(count / 30)} onChange={newPage} />
+      )}
+    </Box>
+  );
+};
 
 export default Repositories;
