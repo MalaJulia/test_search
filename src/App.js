@@ -1,23 +1,29 @@
-import './App.css';
+import { Navigate, Route, Routes } from "react-router-dom";
 
-import {Navigate, Route, Routes} from "react-router-dom";
-import {Header} from "./components";
+import Box from "@mui/material/Box";
+
+import { Header } from "./components";
 import Repositories from "./components/Repositories/Repositories";
-
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
-
-    return (
-      <div className={"container"}>
+  return (
+    <Box display={"flex"} justifyContent={"center"}>
+      <Box
+        height="100vh"
+        display="flex"
+        flexDirection="column"
+        bgcolor={"#bab7b6"}
+      >
         <Header />
         <Routes>
-          <Route path={"/"}>
-            <Route index element={<Navigate to={"/repositories"} />} />
-            <Route path={"/repositories"} element={<Repositories />} />
+          <Route path={"/"} element={<Repositories />}>
           </Route>
         </Routes>
-      </div>
-    );
+        <Footer />
+      </Box>
+    </Box>
+  );
 };
 
 export default App;

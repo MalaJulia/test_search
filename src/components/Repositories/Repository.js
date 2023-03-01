@@ -5,7 +5,11 @@ const Repository = ({ repository }) => {
   return (
     <Box margin={3}>
       <Typography variant="h6" gutterBottom color={"blue"}>
-        <Link href={`${repository.html_url}`} underline="hover">
+        <Link
+          target={"_blank"}
+          href={`${repository.html_url}`}
+          underline="hover"
+        >
           {repository.name}
         </Link>
       </Typography>

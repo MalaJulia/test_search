@@ -11,8 +11,6 @@ const Search = () => {
 
   let interval;
 
-  console.log(queryParams.q);
-
   const handleSearchChange = (event) => {
     interval = setTimeout(() => {
       const { value } = event.target;

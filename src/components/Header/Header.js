@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <Box
       sx={{
-        backgroundColor: "azure",
+        backgroundColor: "#7282ef",
         paddingY: 1,
       }}
       display="flex"

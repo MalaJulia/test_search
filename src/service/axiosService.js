@@ -7,7 +7,6 @@ const axiosService = axios.create({ baseURL });
 
 axiosService.interceptors.request.use((config) => {
   const access = auth;
-  console.log(access);
 
   if (access) {
     config.headers.Authorization = access;
