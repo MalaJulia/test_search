@@ -9,18 +9,17 @@ import queryParams from "../../constants/queryParams";
 const Search = () => {
   const [query, setQuery] = useSearchParams(queryParams);
 
-  let interval;
+  const handleSearchSubmit = (document.body.onkeyup = (event) => {
+    const { value } = event.target;
+    queryParams.q = value;
+    if (!value) {
+      queryParams.q = "a";
+    }
 
-  const handleSearchChange = (event) => {
-    interval = setTimeout(() => {
-      const { value } = event.target;
-      queryParams.q = value;
-      if (!value) {
-        queryParams.q = "a";
-      }
+    if (event.key === "Enter") {
       setQuery(() => queryParams);
-    }, 300);
-  };
+    }
+  });
 
   return (
     <Box>
@@ -33,7 +32,7 @@ const Search = () => {
         label=<SearchIcon />
         type="search"
         variant="outlined"
-        onChange={handleSearchChange}
+        onSubmit={handleSearchSubmit}
         defaultValue={query.get("name")}
       />
     </Box>

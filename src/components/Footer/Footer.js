@@ -4,39 +4,24 @@ import { useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Pagination } from "@mui/material";
 
-import { searchService } from "../../service";
 import queryParams from "../../constants/queryParams";
 
-const Footer = () => {
+const Footer = ({ count, isLoading }) => {
   const [query, setQuery] = useSearchParams(queryParams);
-  const [count, setCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
 
-  useEffect(() => {
-    setIsLoading(true);
-    const queryData = Object.fromEntries([...query]);
-
-    searchService
-      .Search(queryData)
-      .then(({ data }) => {
-        setCount(data.total_count);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log(error, "Error in request");
-      });
-  }, [query]);
+  useEffect(() => setPage(+query.get("page")), [query]);
 
   const newPage = (event, pageNew) => {
+    console.log(pageNew);
+    console.log(event);
     const queryData = Object.fromEntries([...query]);
-    setPage(() => pageNew);
     setQuery(() => ({
       ...queryData,
       page: pageNew,
     }));
   };
+
   return (
     <Box
       sx={{
@@ -56,6 +41,5 @@ const Footer = () => {
     </Box>
   );
 };
-
 
 export default Footer;

@@ -1,10 +1,9 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
 import { Header } from "./components";
 import Repositories from "./components/Repositories/Repositories";
-import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
@@ -17,10 +16,8 @@ const App = () => {
       >
         <Header />
         <Routes>
-          <Route path={"/"} element={<Repositories />}>
-          </Route>
+          <Route path={"/"} element={<Repositories />}></Route>
         </Routes>
-        <Footer />
       </Box>
     </Box>
   );
