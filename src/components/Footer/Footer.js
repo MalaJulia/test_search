@@ -13,8 +13,6 @@ const Footer = ({ count, isLoading }) => {
   useEffect(() => setPage(+query.get("page")), [query]);
 
   const newPage = (event, pageNew) => {
-    console.log(pageNew);
-    console.log(event);
     const queryData = Object.fromEntries([...query]);
     setQuery(() => ({
       ...queryData,
